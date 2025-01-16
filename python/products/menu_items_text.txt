@@ -1,0 +1,21 @@
+Menu Items
+
+Cappuccino - Ksh 495.00
+Jumbo Savory Scone - Ksh 357.50
+Latte - Ksh 522.50
+Chocolate Chip Biscotti - Ksh 275.00
+Espresso shot - Ksh 220.00
+Hazelnut Biscotti - Ksh 302.50
+Chocolate Croissant - Ksh 412.50
+Dark chocolate (Drinking Chocolate) - Ksh 550.00
+Cranberry Scone - Ksh 385.00
+Croissant - Ksh 357.50
+Almond Croissant - Ksh 440.00
+Ginger Biscotti - Ksh 275.00
+Oatmeal Scone - Ksh 357.50
+Ginger Scone - Ksh 385.00
+Chocolate syrup - Ksh 165.00
+Hazelnut syrup - Ksh 165.00
+Caramel syrup - Ksh 165.00
+Sugar Free Vanilla syrup - Ksh 165.00
+Dark chocolate (Packaged Chocolate) - Ksh 330.00
