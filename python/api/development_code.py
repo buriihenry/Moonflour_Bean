@@ -1,5 +1,7 @@
 from agents import (GuardAgent,
-                    ClassificationAgent
+                    ClassificationAgent,
+                    DetailsAgent,
+                    AgentProtocol
                     )
 import os
 
@@ -10,9 +12,14 @@ if __name__ == "__main__":
     guard_agent = GuardAgent()
     classification_agent = ClassificationAgent()
 
+    agent_dict: dict[str, AgentProtocol] = {
+        "details_agent": DetailsAgent(),
+        
+    }
+
     messages = []
     while True:
-        #os.system('cls' if os.name =='nt' else 'clear')
+        os.system('cls' if os.name =='nt' else 'clear')
 
         print("\n\n Print Messages.........")
         for message in messages:
@@ -30,9 +37,16 @@ if __name__ == "__main__":
             continue
 
         #Create classification agent which will assign the requests to order agents,details agent or recommendation agent
-        classification_agent_response = classification_agent.get_response(messages) 
-        chosen_agent = classification_agent_response["memory"]["classification_decision"]
-        print("Chosen Agent: ",chosen_agent ) 
+        classification_agent_response = classification_agent.get_response(messages)
+        chosen_agent=classification_agent_response["memory"]["classification_decision"]
+        print("Chosen Agent: ", chosen_agent)
+
+
+         # Get the chosen agent's response
+        agent = agent_dict[chosen_agent]
+        response = agent.get_response(messages)
+        
+        messages.append(response)
         
       
 
