@@ -2,7 +2,7 @@ from openai import OpenAI
 import os
 import json
 from copy import deepcopy 
-from .utils import get_chat_response
+from .utils import get_chat_response, double_check_json_output
 import dotenv
 dotenv.load_dotenv()
 
@@ -17,7 +17,7 @@ class GuardAgent():
     def get_response(self, messages):
         messages = deepcopy(messages)
 
-        system_prompt =""""
+        system_prompt ="""
             You are a helpful AI assistant for a coffee shop application which serves drinks and pastries.
             Your task is to determine whether the user is asking something relevant to the coffee shop or not.
             The user is allowed to:
@@ -38,27 +38,37 @@ class GuardAgent():
             }
 
         """    
-        input_messages=[{"role":"system","content":system_prompt}] + messages[-3:]
+        input_messages = [{"role": "system", "content": system_prompt}] + messages[-3:]
 
         chatbot_output = get_chat_response(self.client, self.model_name, input_messages)
-        output = self.postprocess(chatbot_output)
-
+        chatbot_output = double_check_json_output(self.client, self.model_name,chatbot_output)
+        
+        try:
+            output = self.postprocess(chatbot_output)
+        except json.JSONDecodeError as e:
+            print(f"JSON Decode Error: {e}")
+            print(f"Raw output: {chatbot_output}")
+            # Fallback response in case of error
+            return {
+                "role": "assistant",
+                "content": "Sorry, there was an error processing your request. Could you please try again?",
+                "memory": {
+                    "agent": "guard_agent",
+                    "guard_decision": "error"
+                }
+            }
+        
         return output
     
-    def postprocess(self,output):
+    def postprocess(self, output):
         output = json.loads(output)
 
-        dict_output ={
-            "role":"assistant",
-            "content":output["message"],
-            "memory":{
-                "agent":"guard_agent",
-                "guard_decision":output["decision"]
+        dict_output = {
+            "role": "assistant",
+            "content": output["message"],
+            "memory": {
+                "agent": "guard_agent",
+                "guard_decision": output["decision"]
             }
-
         }
         return dict_output
-
-
-        
-    

@@ -41,6 +41,12 @@ class DetailsAgent():
         result = self.get_closest_results(self.index_name,embedding)
         source_knowledge = "\n".join([x['metadata']['text'].strip()+'\n' for x in result['matches'] ])
 
+        # Add fallback for pricing queries
+        if any(word in user_message.lower() for word in ['price', 'cost', 'how much']):
+            source_knowledge += "\nDefault pricing information for common items:\n"
+            source_knowledge += "- Latte: $4.50\n- Cappuccino: $4.25\n- Espresso: $3.00\n"
+
+
         prompt = f"""
         Using the contexts below, answer the query.
 
@@ -50,21 +56,22 @@ class DetailsAgent():
         Query: {user_message}
         """
 
-        system_prompt = """ You are a customer support agent for a coffee shop called Merry's way. You should answer every question as if you are waiter and provide the neccessary information to the user regarding their orders """
+        system_prompt = """ You are a customer support agent for a coffee shop called Moonflour Bean. You should answer every question as if you are waiter and provide the neccessary information to the user regarding their orders """
         messages[-1]['content'] = prompt
         input_messages = [{"role": "system", "content": system_prompt}] + messages[-3:]
 
         chatbot_output =get_chat_response(self.client,self.model_name,input_messages)
         output = self.postprocess(chatbot_output)
         return output
+    
 
-    def postprocess(self,output):
-        output = {
+    def postprocess(self, output):
+        return {
             "role": "assistant",
             "content": output,
-            "memory": {"agent":"details_agent"
-                      }
+            "message": output,  # Explicitly add 'message' field
+            "memory": {"agent": "details_agent"}
         }
-        return output
+    
 
     
