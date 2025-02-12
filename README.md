@@ -1,9 +1,9 @@
 
 # **Moonflour_Bean – AI Chatbot for Coffee Shop Apps**
 
-Welcome to the **Moonflour_Bean Chat Agent** repository! This project contains the full-stack implementation of an AI-powered chatbot designed to enhance customer experiences in a coffee shop application by simulating real-world interactions.
+Welcome to the **Moonflour_Bean Chat Agent** repository! This project contains the full-stack implementation of an AI-powered **Multi-agent** app designed to enhance customer experiences in a coffee shop application by simulating real-world interactions.
 
-The chatbot utilizes **Large Language Models (LLMs)**, **Natural Language Processing (NLP)**, and **RunPod’s infrastructure**,  **Firebase**to assist customers with:
+The chatbot utilizes **Large Language Models (LLMs)**, **Natural Language Processing (NLP)**, **RunPod’s infrastructure**, and **Firebase** to assist customers with:
 
 ✅ Taking orders  
 ✅ Answering detailed menu-related queries  
